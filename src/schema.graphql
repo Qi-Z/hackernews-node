@@ -1,0 +1,24 @@
+# // 1 Type def
+#// NOTE: The schema definition is actually string, which means graphql-yoga will have to parse the string.
+#// maybe into some AST (Abstract Syntax Tree)
+#// Every field is backed by a resolver function.
+#// Here we write type definition as string. In fact, it can be put into .graphql files.
+#// ID is special scalar type in graphql
+type Query {
+    info: String!
+    feed: [Link!]!
+    link(id: ID!): Link  # This is nullable because we might not find the link
+}
+
+type Mutation {
+    post(url: String!, description: String!): Link!
+    updateLink(id: ID!, url: String!, description: String!): Link # This is nullable because we might not find the link
+    deleteLink(id: ID!): Link #  This is nullable because we might not find the link
+}
+
+type Link {
+    id: ID!
+    url: String!
+    description: String!
+}
+

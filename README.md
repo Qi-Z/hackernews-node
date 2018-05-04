@@ -8,6 +8,15 @@ Following https://www.howtographql.com/graphql-js/0-introduction/ to learn Graph
 ### GraphQL API <=> GraphQL Schema
 At the core of every GraphQL API, there is a GraphQL Schema.
 
+### Three Special Root Types
+When we doing API call, only one of these types is allowed at a time
+* Single quotes are not allowed
+#### Query
+
+#### Mutation
+
+#### Subscription
+
 
 ## References
 ### `graphql-yoga`
