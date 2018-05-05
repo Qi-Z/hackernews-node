@@ -1,0 +1,6 @@
+type Link {
+    id: ID! @unique # unique directive tells Prisma that this field is unique. Actually Prisma will auto-generate globally unique ids for this field
+    createdAt: DateTime!
+    description: String!
+    url: String!
+}
