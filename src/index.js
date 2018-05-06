@@ -1,36 +1,24 @@
 const {GraphQLServer} = require('graphql-yoga');
+const {Prisma} = require('prisma-binding');
 
-let links = [
-    {
-        id: 'link-0',
-        url: 'www.howtographql.com',
-        description: 'Fullstack tutorial for graphql'
-    }
-];
-
-let idCount = links.length; // Keep track of link id
-
-// 2 Resolver functions
+// Resolver functions
 // Resolver is extremely important for query, mutation, subscription to be resolved.
 // All resolver functions take 4 arguments: root, args, ..., and ...
 const resolvers = {
     Query: {
         info: () => `This is the API of a Hackernews Clone`,
-        feed: () => links,
-        link: (root, args) => {
-            return links.find(l => l.id === args.id);
-        }
+        feed: (root, args, context, info) => { // Context is a Javascript object that every resolver in the resolver chain can read from and write-to
+            return context.db.query.links({}, info) // Here we've attached db to context, so we get access to db
+        },
     },
     Mutation: {
-        post: (root, args) => {
-            const {url, description} = args;
-            const link = {
-                id: `link-${idCount++}`,
-                url,
-                description
-            };
-            links.push(link);
-            return link;
+        post: (root, args, context, info) => {
+            return context.db.mutation.createLink({
+                data: {
+                    url: args.url,
+                    description: args.description,
+                },
+            }, info)
         },
         updateLink: (root, args) => {
             // Just curious what the root is here
@@ -62,12 +50,27 @@ const resolvers = {
 };
 
 
-// 3 Put schema and resolvers into server
+// Put schema and resolvers into server
+// Instantiate Prisma binding instance
 const server = new GraphQLServer(
     {
         // typeDefs can be string or file path to the schema
         typeDefs: './src/schema.graphql',
-        resolvers
+        resolvers,
+        context: req => ({
+            ...req,
+            // Instantiate Prisma binding instance
+            // typeDefs: Prisma database schema
+            // endpoint: endpoint of Prisma API
+            // secret is needed so Prisma can sign the JWT for you in order to make request to API
+            // debug true means that all requests will be logged in the console
+            db: new Prisma({
+                typeDefs: 'src/generated/prisma.graphql',
+                endpoint: 'https://us1.prisma.sh/public-abalonedancer-518/hackernews-node/dev',
+                secret: 'mysecret123',
+                debug: true,
+            }),
+        }),
     }
 );
 server.start(() => console.log(`Server is running on http://localhost:4000`)); // Go to http://localhost:4000 to interact with GraphQL, or use POSTman CURL

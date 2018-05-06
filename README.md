@@ -1,9 +1,77 @@
 # hackernews-node
 Following https://www.howtographql.com/graphql-js/0-introduction/ to learn GraphQL with nodejs
 
+## Overview
+1. Application layer
+> Schema (Can be imported from database layer schema)
+> Resolver
+> Run this layer like `node src/index.js`
+2. Database layer (Prisma)
+> Schema for data model only. (Other schema like query, mutation, subscription are auto-generated)
+> Config file yaml. Define service name, stage to deploy
+> Deploy with `prisma deploy`. It will read prisma.yml.
+3. Config files
+> Unify all configuration with .graphqlconfig.yml
+4. `graphql playground`: the graphql-cli command that run open the browser for both layers API
+
+
+
 ## Get Started
 1. Type definitions define GraphQL Schema (SDL)
 2. Resolvers are the actual implementations of the schema
+
+2.1. Resolver takes in 4 parameters. They are `root`, `args`, `context`, and `info`
+
+`context` is a Javascript Object that every resolver in the resolver chain can read from and write to. It's a means to for resolvers to communicatte
+
+`info` object carries information about the incoming graphQL query (in the form of [`query AST`](https://medium.com/@cjoudrey/life-of-a-graphql-query-lexing-parsing-ca7c5045fad8))
+----------------------------------------
+
+**Example**
+
+Resolver
+```js
+const resolver = {
+    Query: {
+        feed: (root, args, context, info) => {
+            // some operations
+            return 
+        }
+    }
+}
+```
+
+Schema
+```graphql
+type Query {
+    feed(id: ID!): Feed
+}
+
+type Feed {
+    id: ID!
+    url: String!
+    description: String!
+}
+```
+
+Actual query
+```graphql
+query {
+    feed(id: "feed1") {
+        id
+        url
+        description
+    }
+}
+```
+`info`: `id, url, and desciption (subselection of fields)` becomes info argument for resolver
+
+`args`: `id: "feed1"` becomes `args`
+
+---------------------------
+
+
+
 
 ### GraphQL API <=> GraphQL Schema
 At the core of every GraphQL API, there is a GraphQL Schema.
@@ -60,6 +128,11 @@ Both these two comes with disadvantages:
 #### Keywords or prisma
 * Query delegation
 * Prisma-bindings
+
+Once we define the data model in Prisma, Prisma auto-generate schema and resolvers for us.
+In order to call these Prisma API using Javascript, we need to have bindings between Javascript functions and Prisma's schema and resolvers.
+We need `prisma-binding`
+
 * schema stitching
 * schema delegation
 
@@ -85,4 +158,11 @@ https://www.prisma.io/docs/reference/service-configuration/prisma.yml/yaml-struc
 **Why is a second GraphQL API needed in a GraphQL server architecture with Prisma**
 A: The Prisma API only is an interface to the database, but doesn't allow for any sort of application logic which is 
 needed in most applications
+
+**import data model from prisma schema**
+A: Both application and database layers have schema, although it's perfectly fine to define
+two same schemas, we might want to keep things in one place (source of truth).
+So we can import schema from other graphql files
+
+
 
