@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/Qi-Z/hackernews-node#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "graphql-yoga": "^1.13.1",
+    "jsonwebtoken": "^8.2.1",
     "npm": "^6.0.0",
     "prisma": "^1.6.3",
     "prisma-binding": "^1.5.18"

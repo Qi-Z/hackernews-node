@@ -164,5 +164,15 @@ A: Both application and database layers have schema, although it's perfectly fin
 two same schemas, we might want to keep things in one place (source of truth).
 So we can import schema from other graphql files
 
+## Questions
+* What is `@unique` directive
+>
 
+* How do resolvers communicate with each other?
+> Through the 3rd argument: `context`
+
+* In signup example, how we make sure password cannot be query?
+> Note that the User type is differnt in application layer comprae to database layer
+> And the subselction of fields avaible for query is restricted by Schema. So in our example, the User type for app layer has no password field.
+> Password can not be query at app layer
 
