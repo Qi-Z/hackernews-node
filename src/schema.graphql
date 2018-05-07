@@ -1,4 +1,4 @@
-# import Link, LinkSubscriptionPayload from "./generated/prisma.graphql"
+# import Link, LinkSubscriptionPayload, Vote, VoteSubscriptionPayload from "./generated/prisma.graphql"
 # ^ the above import is from graphql-import package which comes with graphql-yoga
 
 # // 1 Type def
@@ -20,10 +20,12 @@ type Mutation {
 
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+    vote(linkId: ID!): Vote # Note that we only need link ID here because User information comes from token
 }
 
 type Subscription {
     newLink: LinkSubscriptionPayload
+    newVote: VoteSubscriptionPayload
 }
 
 type AuthPayload {

@@ -54,8 +54,33 @@ async function login(parent, args, context, info) {
 
 }
 
+async function vote(parent, args, context, info) {
+    const userId = getUserId(context); // context contains header with auth token
+
+    // It also generates one exists function per type from your data model.
+    // The exists function takes a where filter object that allows to specify certain conditions about elements of that type.
+    // Only if the condition applies to at least one element in the database, the exists function returns true.
+    const linkExists = await context.db.exists.Vote({
+        user: {id: userId},
+        link: {id: args.linkId},
+    });
+
+    if(linkExists) {
+        throw Error(`Already voted for link:  ${args.linkId}`);
+    }
+
+    // Create Link
+    return context.db.mutation.createVote({
+        data: {
+            user: {connect: {id: userId}},
+            link: {connect: {id: args.linkId}},
+        },
+    }, info);
+}
+
 module.exports = {
     signup,
     login,
     post,
+    vote,
 };

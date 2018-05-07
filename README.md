@@ -188,3 +188,12 @@ So we can import schema from other graphql files
 > And the subselction of fields avaible for query is restricted by Schema. So in our example, the User type for app layer has no password field.
 > Password can not be query at app layer
 
+* What is Prisma: `context.db.exists.Vote()` function
+ > It also generates one exists function per type from your data model. The exists function takes a where filter object that allows to specify certain conditions about elements of that type. Only if the condition applies to at least one element in the database, the exists function returns true.
+ > Basically it provides a way to easily check existence
+
+* After prisma deploy, Schema doesn't seem updated
+> Make sure to update the endpoint in index.js
+
+* Why can node field be `null` for subscription?
+> Because delete operation means now value is null

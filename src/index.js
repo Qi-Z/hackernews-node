@@ -32,7 +32,7 @@ const server = new GraphQLServer(
             // debug true means that all requests will be logged in the console
             db: new Prisma({
                 typeDefs: 'src/generated/prisma.graphql',
-                endpoint: 'https://us1.prisma.sh/public-crystalotter-616/hackernews-node/dev',
+                endpoint: 'https://us1.prisma.sh/public-bronzebuffalo-948/hackernews-node/dev',
                 secret: 'mysecret123',
                 debug: true,
             }),
