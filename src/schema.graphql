@@ -1,5 +1,6 @@
-# import Link from "./generated/prisma.graphql"
+# import Link, LinkSubscriptionPayload from "./generated/prisma.graphql"
 # ^ the above import is from graphql-import package which comes with graphql-yoga
+
 # // 1 Type def
 #// NOTE: The schema definition is actually string, which means graphql-yoga will have to parse the string.
 #// maybe into some AST (Abstract Syntax Tree)
@@ -19,6 +20,10 @@ type Mutation {
 
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+}
+
+type Subscription {
+    newLink: LinkSubscriptionPayload
 }
 
 type AuthPayload {

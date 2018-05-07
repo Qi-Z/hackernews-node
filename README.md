@@ -85,6 +85,18 @@ When we doing API call, only one of these types is allowed at a time
 #### Mutation
 
 #### Subscription
+This is the part where GraphQL really shines. It brings realtime functionality to your app
+
+Subscription is usually implemented with [WebSockets](https://en.wikipedia.org/wiki/WebSocket)
+
+Prisma has Subscription out-of-box. Inspect the generated schema, it has subscription.
+
+The subscription can fire these events:
+* A new node is created
+* A new node is updated
+* A new node is deleted
+
+
 ### Introspection
 http://graphql.org/learn/introspection/
 GraphQL provides a powerful introspection system which allows you to peek what schema is available etc.
