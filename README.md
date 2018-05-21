@@ -197,3 +197,45 @@ So we can import schema from other graphql files
 
 * Why can node field be `null` for subscription?
 > Because delete operation means now value is null
+
+* Prisma Query?
+> https://www.prisma.io/docs/reference/prisma-api/queries-ahwee4zaey/#filtering-by-field
+
+* Pagination Design?
+> Two Approaches
+> 1. Limit-offset: Request a specific chunk of the list by providing the indices of the items to be retrieved (in fact, you're mostly providing the start index(offset) as well as a count of items to be retrieved (limit))
+> Limit: how many items, Offset: Start index
+> 2. Cursor-based: This pagination model is a bit more advvanced. Every element in the list is associated with a unique ID (the cursor). Clients paginating through the list then provide the cursor of the starting element as well as a count of items to be retrieved.
+> Prisma supports both approaches
+> In Prisma, `limit` is called `first`, `start` is called `skip`.
+> More Reading: https://dev-blog.apollodata.com/understanding-pagination-rest-graphql-and-relay-b10f835549e7
+
+* Prisma Sorting
+> Prisma will generated the below type for every schema. Used to sort alphabetically.
+> ```
+>enum LinkOrderByInput {
+>  id_ASC
+>  id_DESC
+>  description_ASC
+>  description_DESC
+>  url_ASC
+>  url_DESC
+>  updatedAt_ASC
+>  updatedAt_DESC
+>  createdAt_ASC
+>  createdAt_DESC
+>}
+>```
+
+* Error in GraphQL?
+> Tradition Rest API, we use status code like 404, 502 to indicate errors. How do we handle this in GraphQL? TO BE ANSWERED
+
+# Useful Resources
+* [GraphQL Boilerplates](https://github.com/graphql-boilerplates/node-graphql-server)
+* [Prisma Blog](https://blog.graph.cool/)
+* [GraphQL Weekly](https://graphqlweekly.com/)
+* [GraphQL Radio](https://graphqlradio.com/)
+* [GraphQL Europe](https://www.graphql-europe.org/)
+* [Prisma Slack](https://slack.graph.cool/)
+
+

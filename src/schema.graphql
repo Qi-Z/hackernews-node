@@ -1,4 +1,4 @@
-# import Link, LinkSubscriptionPayload, Vote, VoteSubscriptionPayload from "./generated/prisma.graphql"
+# import Link, LinkSubscriptionPayload, Vote, VoteSubscriptionPayload, LinkOrderByInput from "./generated/prisma.graphql"
 # ^ the above import is from graphql-import package which comes with graphql-yoga
 
 # // 1 Type def
@@ -9,7 +9,7 @@
 #// ID is special scalar type in graphql
 type Query {
     info: String!
-    feed: [Link!]!
+    feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed
     link(id: ID!): Link  # This is nullable because we might not find the link
 }
 
@@ -39,6 +39,11 @@ type User {
     name: String!
     email: String!
     links: [Link!]!
+}
+
+type Feed {
+    links: [Link!]!
+    count: Int!
 }
 
 
